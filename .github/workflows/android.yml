@@ -15,24 +15,19 @@ jobs:
         node-version: 18
 
     - name: Install dependencies
-      run: |
-        npm install
+      run: npm install
 
     - name: Build web app
-      run: |
-        npm run build
+      run: npm run build
 
     - name: Install Capacitor
-      run: |
-        npm install @capacitor/core @capacitor/cli
+      run: npm install @capacitor/core @capacitor/cli
 
     - name: Init Capacitor
-      run: |
-        npx cap init Taskflow com.taskflow.app --web-dir=dist
+      run: npx cap init Taskflow com.taskflow.app --web-dir=dist
 
     - name: Add Android
-      run: |
-        npx cap add android
+      run: npx cap add android
 
     - name: Build APK
       run: |
