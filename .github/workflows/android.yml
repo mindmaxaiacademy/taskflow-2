@@ -8,9 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
       with:
         node-version: 18
 
@@ -20,23 +22,18 @@ jobs:
     - name: Build web app
       run: npm run build
 
-    - name: Install Capacitor
-      run: npm install @capacitor/core @capacitor/cli
-
-    - name: Init Capacitor
-      run: npx cap init Taskflow com.taskflow.app --web-dir=dist
-
-    - name: Add Android
-      run: npx cap add android
-
-    - name: Build APK
+    - name: Install Capacitor + Android
       run: |
-        cd android
-        chmod +x gradlew
-        ./gradlew assembleDebug
+        npm install @capacitor/core @capacitor/cli @capacitor/android
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: Taskflow-APK
-        path: android/app/build/outputs/apk/debug/app-debug.apk
+    - name: Initialize Capacitor
+      run: |
+        npx cap init Taskflow com.taskflow.app --web-dir=dist
+
+    - name: Add Android platform
+      run: |
+        npx cap add android
+
+    - name: Sync Capacitor
+      run: |
+        npx cap sync android
